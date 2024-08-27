@@ -10,7 +10,9 @@ const app = express()
 
 dotEnv.config()
 
-app.use(cors())
+app.use(cors({
+    origin: "https://digitalsolutionsfordigitallife.netlify.app"
+}))
 app.use(bodyParser.json())
 
 const PORT = process.env.PORT || 4002
