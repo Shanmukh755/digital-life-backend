@@ -11,7 +11,7 @@ const app = express()
 dotEnv.config()
 
 app.use(cors({
-    origin: "https://digitalsolutionsfordigitallife.netlify.app"
+    origin: "https://digitalsolutionsfordigitallife.com"
 }))
 app.use(bodyParser.json())
 
