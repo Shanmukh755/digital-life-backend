@@ -11,7 +11,7 @@ const app = express();
 dotEnv.config();
 
 const corsOptions = {
-  origin: ["https://digitalsolutionsfordigitallife.com/"], 
+  origin: ["https://digitalsolutionsfordigitallife.com"], 
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
