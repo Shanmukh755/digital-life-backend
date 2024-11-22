@@ -1,8 +1,7 @@
-const { required } = require('joi')
 const mongoose = require('mongoose')
 
 const ServiceInputSchema = new mongoose.Schema({
-    name:{
+    firstName:{
         type: String,
         required: true
     },

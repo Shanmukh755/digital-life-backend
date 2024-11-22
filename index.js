@@ -10,9 +10,7 @@ const app = express()
 
 dotEnv.config()
 
-app.use(cors({
-    origin: "https://digitalsolutionsfordigitallife.com"
-}))
+app.use(cors())
 app.use(bodyParser.json())
 
 const PORT = process.env.PORT || 4002
@@ -28,6 +26,10 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.use('/requests', serviceInputRouter)
 app.use('/user', userRouter)
+
+app.get('/', (req, res)=>{
+    res.send("app working successfully")
+})
 
 app.listen(PORT, ()=>{
     console.log(`Server is started and connected at PORT: ${PORT}`)
