@@ -1,36 +1,43 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const dotEnv = require('dotenv')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const serviceInputRouter = require('./router/ServiceInputRouter')
-const userRouter = require('./router/UserRouter')
+const express = require("express");
+const mongoose = require("mongoose");
+const dotEnv = require("dotenv");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const serviceInputRouter = require("./router/ServiceInputRouter");
+const userRouter = require("./router/UserRouter");
 
-const app = express()
+const app = express();
 
-dotEnv.config()
+dotEnv.config();
 
-app.use(cors())
-app.use(bodyParser.json())
+const corsOptions = {
+  origin: ["https://digitalsolutionsfordigitallife.com/"], 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
-const PORT = process.env.PORT || 4002
+// app.use(cors());
+app.use(bodyParser.json());
 
-mongoose.connect(process.env.MONGO_URI)
-.then(()=>{
-    console.log('MongoDB connected successfully')
-})
-.catch((error)=>{
-    console.log('ERROR: ', error)
-})
+const PORT = process.env.PORT || 4002;
 
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB connected successfully");
+  })
+  .catch((error) => {
+    console.log("ERROR: ", error);
+  });
 
-app.use('/requests', serviceInputRouter)
-app.use('/user', userRouter)
+app.use("/requests", serviceInputRouter);
+app.use("/user", userRouter);
 
-app.get('/', (req, res)=>{
-    res.send("app working successfully")
-})
+app.get("/", (req, res) => {
+  res.send("app working successfully");
+});
 
-app.listen(PORT, ()=>{
-    console.log(`Server is started and connected at PORT: ${PORT}`)
-})
+app.listen(PORT, () => {
+  console.log(`Server is started and connected at PORT: ${PORT}`);
+});
