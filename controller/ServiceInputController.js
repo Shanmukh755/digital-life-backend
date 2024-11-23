@@ -1,6 +1,6 @@
 const ServiceInput = require('../model/ServiceInput')
 
-const postServiceRequset = async (req, res) => {
+const postServiceRequest = async (req, res) => {
     try{
         const {name, email, phone, company, service, msg} = req.body
         if (!name || !email || !phone || !company || !service) {
@@ -15,7 +15,7 @@ const postServiceRequset = async (req, res) => {
     }
 }
 
-const getAllRequsets = async (req, res) => {
+const getAllRequests = async (req, res) => {
     try{
         const serviceInput = await ServiceInput.find()
         res.status(201).json(serviceInput)
@@ -25,7 +25,7 @@ const getAllRequsets = async (req, res) => {
     }
 }
 
-const deleteRequsetById = async (req, res) => {
+const deleteRequestById = async (req, res) => {
     try{
         const serviceInput = await ServiceInput.findByIdAndDelete(req.params.id)
         if (!serviceInput){
@@ -38,4 +38,4 @@ const deleteRequsetById = async (req, res) => {
     }
 }
 
-module.exports = {postServiceRequset, getAllRequsets, deleteRequsetById}
+module.exports = {postServiceRequest, getAllRequests, deleteRequestById}

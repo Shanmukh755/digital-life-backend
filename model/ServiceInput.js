@@ -24,6 +24,10 @@ const ServiceInputSchema = new mongoose.Schema({
     msg:{
         type: String,
         default: false
+    },
+    date: {
+        type: Date,
+        default: Date.now 
     }
 })
 

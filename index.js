@@ -1,43 +1,38 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotEnv = require("dotenv");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const serviceInputRouter = require("./router/ServiceInputRouter");
-const userRouter = require("./router/UserRouter");
+const express = require('express');
+const mongoose = require('mongoose');
+const dotEnv = require('dotenv');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const serviceInputRouter = require('./router/ServiceInputRouter');
+const userRouter = require('./router/UserRouter');
 
 const app = express();
 
 dotEnv.config();
 
-const corsOptions = {
-  origin: ["https://digitalsolutionsfordigitallife.com"], 
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-};
-app.use(cors(corsOptions));
+// Middleware setup
+app.use(express.json());  // Ensure this is before the routes
+app.use(bodyParser.json());  // Optional, express.json() is usually enough
+app.use(cors());  // CORS setup after body parsing
 
-// app.use(cors());
-app.use(bodyParser.json());
+const PORT = process.env.PORT || 4000;
 
-const PORT = process.env.PORT || 4002;
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log('MongoDB connected successfully');
+    })
+    .catch((error) => {
+        console.log('ERROR: ', error);
+    });
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB connected successfully");
-  })
-  .catch((error) => {
-    console.log("ERROR: ", error);
-  });
+// Custom routers
+app.use('/requests', serviceInputRouter);
+app.use('/user', userRouter);  // Make sure this is correct path
 
-app.use("/requests", serviceInputRouter);
-app.use("/user", userRouter);
-
-app.get("/", (req, res) => {
-  res.send("app working successfully");
+app.get('/working', (req, res) => {
+    res.send("app working properly");
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is started and connected at PORT: ${PORT}`);
+    console.log(`Server is started and connected at PORT: ${PORT}`);
 });

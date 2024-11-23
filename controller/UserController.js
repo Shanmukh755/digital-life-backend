@@ -6,6 +6,7 @@ const UserModel = require('../model/User')
 const signup = async (req, res) => {
     try {
         const { email, password, role } = req.body;
+        console.log(req.body)
 
         // Check if user already exists
         const user = await UserModel.findOne({ email });
@@ -35,11 +36,12 @@ const login = async(req, res) => {
         if (!user){
             return res.status(403).json({message: 'user is not exist, you have to signup'})
         }
-        const isPasswordMatch = bcrypt.compare(password, user.password)
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch){
             return res.status(403).json({message: 'Invalid Password'})
         }
-        const jwtToken = jwt.sign({email: user.email, _id: user._id}, process.env.JWT_SECRET)
+        const jwtToken = jwt.sign({email: user.email, _id: user._id, role: user.role}, process.env.JWT_SECRET)
+        console.log(user.role)
         return res.status(200).json({message: 'login successfully', jwtToken, role: user.role})
     } catch(err){
         console.log(err)

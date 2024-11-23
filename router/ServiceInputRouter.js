@@ -1,9 +1,13 @@
-const express = require('express')
-const router = express.Router()
-const {postServiceRequset, getAllRequsets, deleteRequsetById} = require('../controller/ServiceInputController')
+const express = require('express');
+const router = express.Router();
+const { postServiceRequest, getAllRequests, deleteRequestById } = require('../controller/ServiceInputController');
+const {authorize} = require('../middleware/ServiceMiddleware');
 
-router.post('/', postServiceRequset)
-router.get('/', getAllRequsets)
-router.delete('/:id', deleteRequsetById)
+// Public Route
+router.post('/', postServiceRequest); // No authorization needed for submitting a request
 
-module.exports = router
+// Protected Routes
+router.get('/', authorize(['admin']), getAllRequests); // Only accessible by admin users
+router.delete('/:id', authorize(['admin']), deleteRequestById); // Only accessible by admin users
+
+module.exports = router;
