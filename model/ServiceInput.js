@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const ServiceInputSchema = new mongoose.Schema({
-    firstName:{
+    name:{
         type: String,
         required: true
     },
